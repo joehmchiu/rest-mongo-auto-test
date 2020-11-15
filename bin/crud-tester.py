@@ -26,9 +26,9 @@ def pp(t, r):
 def postchk(d, j):
     for k in d.keys():
         try:
-            if d[k] != j[k]: return k, False
+            if d[k] != j[k]: return (k, False)
         except Exception as e:
-            return e, False
+            return (e, False)
     return True
 
 def listall():
