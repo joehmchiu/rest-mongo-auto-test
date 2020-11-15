@@ -77,8 +77,8 @@ class ChromeSearch(unittest2.TestCase):
 
     def test_delete(self):
         print("test delete function")
-        # ret = post({"name":"Su Kayle","email":"su.keyle@email.com","password":"sukaylepassword","mobile":"042312123","gender":"Female"})
-        ret = post({"name":"Su Kayle","email":"su.keyle@email.com","password":"sukaylepassword"})
+        ret = post({"name":"Su Kayle","email":"su.keyle@email.com","password":"sukaylepassword","mobile":"042312123","gender":"Female"})
+        # ret = post({"name":"Su Kayle","email":"su.keyle@email.com","password":"sukaylepassword"})
         print(ret)
         self.assertRegex(ret, 'done')
 
