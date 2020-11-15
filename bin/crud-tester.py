@@ -52,9 +52,9 @@ def post(d):
     j = pp("Create", r)
     k, r = postchk(d, j)
     if r: 
-        return "ID: %s customer created - done" % j["_id"]
+        return "ID: %s customer created - done" % d["_id"]
     else: 
-        if j[k]: return "Inconsistent data, %s: '%s' revoked" % (k, j[k])
+        if j[k]: return "Inconsistent data, %s: '%s' revoked" % (k, d[k])
         else: return "Error: %s" % k
         delete(j["_id"])
 
