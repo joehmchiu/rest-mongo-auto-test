@@ -54,7 +54,7 @@ def post(d):
     if r: 
         return "ID: %s customer created - done" % d["_id"]
     else: 
-        if j[k]: return "Inconsistent data, %s: '%s' revoked" % (k, d[k])
+        if d[k]: return "Inconsistent data, %s: '%s' revoked" % (k, d[k])
         else: return "Error: %s" % k
         delete(j["_id"])
 
