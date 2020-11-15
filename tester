@@ -12,6 +12,6 @@ no = '\u274C'
 
 stage "Testing Application"
 node() {
-	sh "cd ${workspace}/bin/; /bin/p3 crud-tester.py"
+	sh "cd ${workspace}/bin/; sudo /bin/p3 crud-tester.py"
 }
 
