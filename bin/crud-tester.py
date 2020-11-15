@@ -23,14 +23,6 @@ def pp(t, r):
         if r.content: print(r.content)
     return j
 
-def postchk(d, j):
-    for k in d.keys():
-        try:
-            if d[k] != j[k]: return (k, False)
-        except Exception as e:
-            return (e, False)
-    return True
-
 def listall():
     r = session.request('GET', url)
     pp("List All", r)
@@ -47,16 +39,23 @@ def delete(id):
     except Exception as e:
         return "ID: %s cannot be deleted - %s" % (id, e)
 
+def postchk(d, j):
+    for k in d.keys():
+        try:
+            if d[k] != j[k]: return k, False
+        except Exception as e:
+            return e, False
+    return '', True
+
 def post(d):
     r = session.request('POST', url, data=d)
     j = pp("Create", r)
-    k, r = postchk(d, j)
-    if r: 
-        return "ID: %s customer created - done" % d["_id"]
+    k, b = postchk(d, j)
+    if b: 
+        return "ID: %s customer created - done" % j["_id"]
     else: 
-        if d[k]: return "Inconsistent data, %s: '%s' revoked" % (k, d[k])
-        else: return "Error: %s" % k
         delete(j["_id"])
+        return "Data error: %s - revoked data" % k
 
 def put(id, d):
     try:
