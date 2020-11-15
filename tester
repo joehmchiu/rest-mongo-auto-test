@@ -14,4 +14,8 @@ stage "Application Testing"
 node() {
 	sh "cd ${workspace}/bin/; p3 crud-tester.py"
 }
+stage "App Tested"
+node() {
+  echo "Application tested"
+}
 
