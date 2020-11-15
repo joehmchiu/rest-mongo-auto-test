@@ -22,7 +22,7 @@ node() {
   sh "ls -ltrh ${workspace}/bin/"
 }
 
-stage "Deploying Application"
+stage "Deploy Application"
 node() {
 	sh "cd ${workspace}/bin/;sudo ansible-playbook -i hosts auto-rest.yml -vvv"
 }

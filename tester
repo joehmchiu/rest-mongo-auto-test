@@ -10,7 +10,7 @@ workspace = pwd()
 ok = '\u2705'
 no = '\u274C'
 
-stage "Testing Application"
+stage "Test Application"
 node() {
 	sh "cd ${workspace}/bin/; sudo /bin/p3 crud-tester.py"
 }
