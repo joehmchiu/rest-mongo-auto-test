@@ -1,7 +1,7 @@
 import json
 from seleniumrequests import Chrome
 from selenium.webdriver.chrome.options import Options
-import unittest
+import unittest2
 
 url = "http://eland.nz:9000/users/"
 
@@ -65,7 +65,7 @@ def put(id, d):
     except:
         return "ID: %s cannot be updated" % id
 
-class ChromeSearch(unittest.TestCase):
+class ChromeSearch(unittest2.TestCase):
     def setUp(self):
         print("Start unit tests")
 
@@ -76,7 +76,7 @@ class ChromeSearch(unittest.TestCase):
         self.assertRegex(ret, 'done')
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest2.main()
     # delete('5fb088e3c3abc3288dbf35fe')
     # put('5fb08833c3abc3288dbf35fc', {"name":"Dam Smith","password":"damsmithpassword"})
     # put('5fb088e3c3abc3288dbf35fe', {"name":"Parv Sing","password":"parsingpassword"})
