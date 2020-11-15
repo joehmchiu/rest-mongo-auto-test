@@ -69,9 +69,16 @@ class ChromeSearch(unittest2.TestCase):
     def setUp(self):
         print("Start unit tests")
 
+#    def test_delete(self):
+#        print("test delete function")
+#        ret = delete('5fb088e3c3abc3288dbf35fe')
+#        print(ret)
+#        self.assertRegex(ret, 'done')
+
     def test_delete(self):
         print("test delete function")
-        ret = delete('5fb088e3c3abc3288dbf35fe')
+        # ret = post({"name":"Su Kayle","email":"su.keyle@email.com","password":"sukaylepassword","mobile":"042312123","gender":"Female"})
+        ret = post({"name":"Su Kayle","email":"su.keyle@email.com","password":"sukaylepassword")
         print(ret)
         self.assertRegex(ret, 'done')
 
