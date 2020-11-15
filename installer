@@ -24,6 +24,6 @@ node() {
 
 stage "Deploying Application"
 node() {
-	sh "cd ${workspace}/bin/;sudo ansible-playbook -i hosts auto-rest.yml"
+	sh "cd ${workspace}/bin/;sudo ansible-playbook -i hosts auto-rest.yml -vvv"
 }
 
