@@ -1,0 +1,89 @@
+import hudson.model.*
+import hudson.EnvVars
+import groovy.json.JsonSlurperClassic
+import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
+import java.net.URL
+
+api  = "http://test.eland.nz:9000/users/"
+id   = '5fb1d03d9837e71225422290'
+data = '{"name":"Su Kayle","email":"su.keyle@email.com","password":"sukaylepassword","mobile":"042312123","gender":"Female"}'
+d2   = '{"name":"Python Cool","password":"pythoncoolpassword"}'
+
+ok = '\u2705'
+no = '\u274C'
+
+def from_json(String res) {
+    final data = readJSON text: res
+    return data
+}
+def check(int s) {
+    if (s == 200) {
+        echo "${ok} test succeed"
+    } else {
+        echo "${nok} test failed"
+        sh "exit 1"
+    }
+}
+def run(String cmd) {
+    final String res = sh(script: "${cmd}", returnStdout: true).trim()
+    return res
+}
+def test_run(String a, String d) {
+    res = run("sudo crud -a ${a} -d '${d}'")
+    return res
+}
+def test_update(String id, String d) {
+    res = run("sudo crud -a update -i ${id} -d '${d}'")
+    return res
+}
+
+pipeline {
+    agent any
+    stages {
+        stage("Testing Create") {
+            steps {
+                script {
+                    response = test_run('create', data)
+                    data = from_json(response)
+                    check(data.status)
+                    id = data.id
+                    echo data.result
+                }
+            }
+        }
+        stage("Testing Read") {
+            steps {
+                script {
+                    response = test_run('read', id)
+                    echo response
+                    data = from_json(response)
+                    check(data.status)
+                    echo data.result
+                }
+            }
+        }
+        stage("Testing Update") {
+            steps {
+                script {
+                    response = test_update(id, d2)
+                    echo response
+                    data = from_json(response)
+                    check(data.status)
+                    echo data.result
+                }
+            }
+        }
+        stage("Testing Delete") {
+            steps {
+                script {
+                    response = test_run('delete', id)
+                    echo response
+                    data = from_json(response)
+                    check(data.status)
+                    echo data.result
+                }
+            }
+        }
+    }
+}

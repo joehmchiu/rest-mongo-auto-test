@@ -17,6 +17,7 @@ def from_json(String res) {
     final data = readJSON text: res
     return data
 }
+
 def check(int s) {
     if (s == 200) {
         echo "${ok} test succeed"
@@ -25,65 +26,59 @@ def check(int s) {
         sh "exit 1"
     }
 }
+
 def run(String cmd) {
     final String res = sh(script: "${cmd}", returnStdout: true).trim()
     return res
 }
+
 def test_run(String a, String d) {
     res = run("sudo crud -a ${a} -d '${d}'")
     return res
 }
+
 def test_update(String id, String d) {
     res = run("sudo crud -a update -i ${id} -d '${d}'")
     return res
 }
 
-pipeline {
-    agent any
-    stages {
-        stage("Testing Create") {
-            steps {
-                script {
-                    response = test_run('create', data)
-                    data = from_json(response)
-                    check(data.status)
-                    id = data.id
-                    echo data.result
-                }
-            }
-        }
-        stage("Testing Read") {
-            steps {
-                script {
-                    response = test_run('read', id)
-                    echo response
-                    data = from_json(response)
-                    check(data.status)
-                    echo data.result
-                }
-            }
-        }
-        stage("Testing Update") {
-            steps {
-                script {
-                    response = test_update(id, d2)
-                    echo response
-                    data = from_json(response)
-                    check(data.status)
-                    echo data.result
-                }
-            }
-        }
-        stage("Testing Delete") {
-            steps {
-                script {
-                    response = test_run('delete', id)
-                    echo response
-                    data = from_json(response)
-                    check(data.status)
-                    echo data.result
-                }
-            }
-        }
-    }
+stage "Testing Create"
+node() {
+  script {
+    response = test_run('create', data)
+    data = from_json(response)
+    check(data.status)
+    id = data.id
+    echo data.result
+  }
+}
+stage "Testing Read"
+node() {
+  script {
+    response = test_run('read', id)
+    echo response
+    data = from_json(response)
+    check(data.status)
+    echo data.result
+  }
+}
+stage "Testing Update"
+node() {
+  script {
+    response = test_update(id, d2)
+    echo response
+    data = from_json(response)
+    check(data.status)
+    echo data.result
+  }
+}
+stage "Testing Delete"
+node() {
+  script {
+    response = test_run('delete', id)
+    echo response
+    data = from_json(response)
+    check(data.status)
+    echo data.result
+  }
 }
