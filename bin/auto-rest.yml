@@ -1,0 +1,28 @@
+---
+- hosts: eland
+  become: yes
+  vars:
+    dir: /var/www/test/rest-mongo-api
+    rep: git@github.com:joehmchiu/rest-mongo-api.git
+  tasks:
+    - name: Get stuff from git
+      git:
+        repo: "{{rep}}"
+        dest: "{{dir}}"
+
+    - name: npm install
+      shell: |
+        cd "{{dir}}"
+        npm install
+
+    - name: forever start
+      shell: |
+        cd "{{dir}}"
+        forever stop 0
+        forever start server.js
+        forever list
+      register: out
+
+    - name: diplay api server status
+      debug:
+        msg: "{{out.stdout}}"
