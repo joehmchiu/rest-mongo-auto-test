@@ -1,3 +1,9 @@
+import hudson.model.*
+import hudson.EnvVars
+import groovy.json.JsonSlurperClassic
+import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
+import java.net.URL
 
 api  = "http://test.eland.nz:9000/users/"
 id   = '5fb1d03d9837e71225422290'
